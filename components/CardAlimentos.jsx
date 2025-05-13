@@ -1,0 +1,23 @@
+import { Text, View, Keyboard } from "react-native";
+import { useState, useEffect } from "react";
+import { Image, StyleSheet, TextInput, Pressable } from "react-native";
+import ComponenteMas from "./ComponenteMas";
+export default function CardAlimentos({nome,kcal,onAdicionar}){
+    
+    
+    return(
+        <View style={{width:340,marginBottom:10,marginTop:0}} >
+        <View style={{ flexDirection: "row",alignItems: "center",justifyContent:"space-between" }}>
+
+            <View>
+                <Text style={{fontSize:16}}>{nome}</Text>
+                <Text>{kcal}</Text>
+            </View>
+        <ComponenteMas onAdicionar={onAdicionar}/>
+        </View>
+        </View>
+  )
+        
+        
+      
+}
