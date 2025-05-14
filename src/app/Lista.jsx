@@ -30,7 +30,7 @@ export default function Home() {
         style={{
           width: 370,
           height: 350,
-          backgroundColor: "rgba(119, 230, 208, 0.5)",
+         
           marginTop: 70,
           borderRadius: 12,
         }}
@@ -207,7 +207,6 @@ export default function Home() {
         <View
           style={{
             width: 360,
-            backgroundColor: "white",
             marginTop: 10,
             padding: 10,
             borderRadius: 12,

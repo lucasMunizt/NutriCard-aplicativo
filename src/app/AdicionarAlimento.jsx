@@ -20,7 +20,7 @@ export default function AdicionarAlimento() {
     const [textInput, setTextInput] = useState('')
 
     const BuscarAlimentos = () =>{
-      if(textInput.trim() !== ''){
+      if(textInput !== ''){
         setbuscaAlimento(true)
       }else{
         setbuscaAlimento(false)
