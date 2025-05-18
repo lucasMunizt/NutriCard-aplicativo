@@ -55,14 +55,14 @@ export default function CardRefeicao ({ imagem, nome, kcal, onAdicionar,adiciona
             <ComponenteMas
             onAdicionar={onAdicionar}/>
           )}
-          {mostraAlimentos &&(
+          {/* {mostraAlimentos &&(
            <TouchableOpacity onPress={toggleRotation}>
               <Animated.Text style={[{ fontSize: 24 }, animatedStyle]}>
                 {'>'}
               </Animated.Text>
             </TouchableOpacity>
           )
-          }
+          } */}
         </View>
       );
 }

@@ -33,7 +33,9 @@ export default function AdicionarAlimento() {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ alignItems: 'center', marginTop: 80}}>
+      <View style={{ 
+        alignItems: 'center',
+         marginTop: 80}}>
         <View style={{ width: 340 }}>
           <TextInput
             style={{
@@ -68,31 +70,55 @@ export default function AdicionarAlimento() {
                       justifyContent:"space-between",
                       flexDirection:"row"
                     }}>
-            <View style={{marginRight:120,flexDirection:'row',alignItems:'center'}}>
+            <View style={{
+              marginRight:120,
+              flexDirection:'row',
+              alignItems:'center'}}>
             <Image
             source={camera}
-            style={{width:30,height:30,marginRight:10}}
+            style={{
+              width:30,
+              height:30,
+              marginRight:10}}
             />
-            <Text style={{marginRight:10,fontFamily:'Nunito_500Medium',fontWeight:500}}>Foto</Text>
+            <Text style={{
+              marginRight:10,
+              fontFamily:'Nunito_500Medium',
+              fontWeight:500}}>Foto</Text>
             </View>
 
-            <View style={{flexDirection:"row",alignItems:"center"}}>
+            <View style={{
+              flexDirection:"row",
+              alignItems:"center"}}>
 
             <Image
             source={favorito}
-            style={{width:30,height:30,marginRight:10}}
+            style={{
+              width:30,
+              height:30,
+              marginRight:10}}
             />
-            <Text style={{fontFamily:'Nunito_500Medium',fontWeight:500}}>Favoritos</Text>
+            <Text style={{
+              fontFamily:'Nunito_500Medium',
+              fontWeight:500
+              }}>Favoritos</Text>
             </View>
         </View>
-        <View style={{justifyContent:'center',alignItems:"center",marginTop:60}}>
+        <View style={{
+          justifyContent:'center',
+          alignItems:"center",
+          marginTop:60}}>
             {!listaBuscaAlimento ?(
               <>
                 <Image
                  source={tomate}
                  style= {{width:250,height:250}}
              />
-             <Text style={{fontFamily:"Nunito_700Bold",fontSize:25,lineHeight:40,textAlign:'center'}}>
+             <Text style={{
+              fontFamily:"Nunito_700Bold",
+              fontSize:25,
+              lineHeight:40,
+              textAlign:'center'}}>
                 Não se esqueça, você pode sempre procurar o alimento por uma foto!
              </Text>
               </>

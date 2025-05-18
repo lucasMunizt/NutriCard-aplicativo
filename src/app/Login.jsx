@@ -37,11 +37,11 @@ export default function Login() {
         const result = await response.json();
         console.log('Resposta do servidor:', result);
         await AsyncStorage.setItem('user', JSON.stringify(result)); // Salva no AsyncStorage
-        router.push('/Home'); 
+        router.replace("Lista");
       }catch(error){
         console.error("erro ao enviar os dados",error);
       }*/
-      router.replace("Lista");
+      router.replace("Perfil");
       
     }
     return (

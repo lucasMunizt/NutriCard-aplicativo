@@ -87,7 +87,17 @@ export default function Logins({
                                         placeholder='senha'
                                         secureTextEntry={true}
                                         onChangeText={onInputChangeSenha}
-                                        style={{ borderColor: "transparent", color: "black", borderRadius: 12, width: "100%", marginTop: 40, padding: 20, borderWidth: 5, backgroundColor: '#dee9fa', maxWidth: 280 }}
+                                        style={{
+                                            borderColor: "transparent",
+                                            color: "black",
+                                            borderRadius: 12,
+                                            width: "100%", 
+                                            marginTop: 40, 
+                                            padding: 20, 
+                                            borderWidth: 5, 
+                                            backgroundColor: '#dee9fa',
+                                            maxWidth: 280 
+                                        }}
                                     />
                                 </>
                             )}
@@ -100,7 +110,17 @@ export default function Logins({
                                                 placeholder='Nome'
                                                 underlineColorAndroid="transparent"
                                                 onChangeText={onInputChangeNome}
-                                                style={{ borderColor: "transparent", color: "black", borderRadius: 12, width: "100%", marginTop: 40, padding: 20, borderWidth: 5, backgroundColor: '#dee9fa', maxWidth: 280 }}
+                                                style={{ 
+                                                    borderColor: "transparent", 
+                                                    color: "black", 
+                                                    borderRadius: 12, 
+                                                    width: "100%", 
+                                                    marginTop: 40, 
+                                                    padding: 20, 
+                                                    borderWidth: 5, 
+                                                    backgroundColor: '#dee9fa',
+                                                     maxWidth: 280 
+                                                }}
                                             />
                                             <RNPickerSelect
                                                 onValueChange={(value) => onInputChangeGenero(value)}

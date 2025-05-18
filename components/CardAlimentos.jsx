@@ -13,6 +13,7 @@ export default function CardAlimentos({nome,kcal,onAdicionar}){
                 <Text style={{fontSize:16}}>{nome}</Text>
                 <Text>{kcal}</Text>
             </View>
+       
         <ComponenteMas onAdicionar={onAdicionar}/>
         </View>
         </View>

@@ -44,13 +44,7 @@ export default function Home() {
       alimentos: ["Sopa", "Torrada integral"]
     }
     ,{
-      nome: "Jantar",
-      imagem: jantar,
-      kcal: "0/1200KCal",
-      alimentos: ["Sopa", "Torrada integral"]
-    }
-    ,{
-      nome: "Jantar",
+      nome: "Merenda",
       imagem: jantar,
       kcal: "0/1200KCal",
       alimentos: ["Sopa", "Torrada integral"]
