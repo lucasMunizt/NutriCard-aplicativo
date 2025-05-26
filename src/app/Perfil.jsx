@@ -1,16 +1,18 @@
 import Footer from "../../components/Footer";
-import { Text, View, Keyboard,Dimensions, TouchableOpacity,ScrollView } from "react-native";
+import { Text, View, Keyboard,Dimensions, TouchableOpacity,ScrollView,Image,Pressable } from "react-native";
 import { useState, useEffect } from "react";
-import { Image, StyleSheet, TextInput, Pressable } from "react-native";
 import coruja from "../../assets/icons/coruja.png";
 import favoritos from "../../assets/icons/favorito.png";
 import CardAlimentos from "../../components/CardAlimentos";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   useFonts,
   Nunito_400Regular,
   Nunito_500Medium,
   Nunito_700Bold,
 } from "@expo-google-fonts/nunito";
+import Login from "./Login";
+
 
 export default function Perfil() {
   const [fontLoaded] = useFonts({
@@ -18,29 +20,64 @@ export default function Perfil() {
     Nunito_500Medium,
     Nunito_700Bold,
   });
-
+   
   const [favoritosAberto, setFavoritosAberto] = useState(null);
   const [nomeUsuario, setNomeUsuario] = useState();
+  const [dadosUsuario, setDadosUsuario] = useState([]);
+
   const [pesoAtual, setPesoAtual] = useState();
   const [pesoIdeal, setPesoIdeal] = useState();
+  const DadosUsuario = async () =>{
+    try{
+        const valoresDados = await AsyncStorage.getItem("user");
+        if(valoresDados != null){
+         const user = JSON.parse(valoresDados)
+         //console.log("user", user[0].id);
+         setDadosUsuario(user)
+         setNomeUsuario(user[0].name) 
+         setPesoAtual(user[0].weight) 
+         setPesoIdeal(user[0].bmi)
+          return dadosUsuario
+        }else{
+          alert("dados não encontrados");
+        }
+    }catch(error){
+      console.error('Erro ao ler AsyncStorage', e);
+      return null;
+    }
+  }
+  useEffect(() => {
+    DadosUsuario()
+  }, []);
+
+  const PrintDadosUsuarios = () =>{
+
+    dadosUsuario.map((index)=>{
+      setNomeUsuario(index.name)
+      setPesoAtual(index.weight)
+    })
+
+  }
 
   if (!fontLoaded) return null;
-  const { width } = Dimensions.get('window');
+  const { width,height } = Dimensions.get('window');
   return (
     <View
       style={{
         flex: 1,
-        alignItems: "center",
+        marginTop:20
       }}
     >
       <View>
         <View
           style={{
-            marginTop: 120,
-            justifyContent: "space-between",
+            alignSelf: 'center',
+            marginTop: 0,
+            justifyContent: "space-around",
             alignItems: "center",
             flexDirection: "row",
-            gap: 0,
+            gap: 30,
+            paddingTop:50 //40
           }}
         >
           <View
@@ -50,7 +87,8 @@ export default function Perfil() {
               height: 80,
               alignItems: "center",
               justifyContent: "center",
-              border: "none",
+              borderWidth: 0,
+              borderWidth: 0,
               borderRadius: 40,
             }}
           >
@@ -65,17 +103,18 @@ export default function Perfil() {
           <Text
             style={{
               fontFamily: "Nunito_700Bold",
-              fontWeight: 900,
+              fontWeight: 800,
               fontSize: 20,
             }}
           >
             {/* nomeUsuario */}
-            Lucas muniz teles
+           {nomeUsuario}
           </Text>
         </View>
         <View>
           <View
             style={{
+              alignSelf: 'center',
               flexDirection: "row",
               justifyContent: "space-around",
               gap: 40,
@@ -100,7 +139,7 @@ export default function Perfil() {
               }}
             >
                 {/* pesoAtual */}
-              120Kg{"\n"}Peso Atual
+              {pesoAtual}Kg{"\n"}Peso Atual
             </Text>
 
             <Text
@@ -122,58 +161,64 @@ export default function Perfil() {
               }}
             >
                 {/* pesoIdeal */}
-              40,5Kg{"\n"}Peso Ideal
+             {pesoIdeal}g{"\n"}Peso Ideal
             </Text>
           </View>
-          <TouchableOpacity onPress={(e)=>favoritosAberto? setFavoritosAberto(false):setFavoritosAberto(true)}>
-          <View style={{
-            flexDirection:'row',
-            alignItems:"center",
-            marginTop:30,
-            justifyContent:"space-around",
-            textAlignVertical: "center",
-            borderWidth: 2,
-            borderColor: "#6e6764",
-            width: width * 0.8,
-            height:70,
-            borderRadius:12,
-            
-          }}>
+         <View>
+          {/* Butão Favorito */}
+  <TouchableOpacity
+    onPress={() => setFavoritosAberto((prev) => !prev)}
+  >
+    <View
+      style={{
+        alignSelf: 'center',
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 30,
+        justifyContent: "space-around",
+        textAlignVertical: "center",
+        borderWidth: 2,
+        borderColor: "#6e6764",
+        width: 303,
+        height: 70,
+        borderRadius: 12,
+      }}
+    >
+      <Image
+        source={favoritos}
+        style={{
+          width: 40,
+          height: 40,
+        }}
+      />
+      <Text
+        style={{
+          fontSize: 15,
+          fontFamily: "Nunito_700Medium",
+          fontWeight: 800,
+        }}
+      >
+        Alimentos Favoritados
+      </Text>
+    </View>
+  </TouchableOpacity>
 
-            <Image source={favoritos}
-                style={
-                    {
-                        width:40,
-                        height:40
-                    }
-                }
-            ></Image>
-            <Text
-                style={{
-                    fontSize: 15,
-                    fontFamily: "Nunito_700Medium",
-                    fontWeight:800
-
-                }}
-            >Alimentos Favoritados</Text>
+        {favoritosAberto && (
+          <View style={{ height: height /4,marginBottom:50,marginTop:height/10 }}>
+            <ScrollView
+              showsVerticalScrollIndicator={true}
+              contentContainerStyle={{
+                alignItems: "center",
+                paddingVertical: 10,
+              }}
+            >
+              {Array.from({ length: 10 }).map((_, i) => (
+                <CardAlimentos key={i} nome="banana" kcal="1200kcal" />
+              ))}
+            </ScrollView>
           </View>
-             {favoritosAberto &&(
-                <View style={{height:300}}>
-                    <ScrollView
-                     showsVerticalScrollIndicator={true}
-                    contentContainerStyle={{
-                    alignItems: 'center',
-                    paddingVertical: 10 , 
-                    
-                     }}>
-                         {Array.from({ length: 10 }).map((_, i) => (
-                            <CardAlimentos key={i} nome="banana" kcal="1200kcal" />
-                        ))}
-                    </ScrollView>
-                </View>
-             )}   
-
-            </TouchableOpacity>
+        )}
+      </View>
         </View>
       </View>
 

@@ -1,14 +1,8 @@
-import { Image, StyleSheet, Platform, TouchableOpacity, ImageBackground } from 'react-native';
-import { Text, View } from "react-native";
-import { Pressable, TextInput } from 'react-native-gesture-handler';
-import { useState,useEffect } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native';
-import {useFonts,Nunito_400Regular,Nunito_500Medium,Nunito_700Bold} from "@expo-google-fonts/nunito"
-import imagens from '../../assets/Imagens';
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import { Platform } from 'react-native';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
-import frasesMotivacionais from '../../components/cadastro/frasesMotivacionais';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Logins from '../../components/cadastro/Logins';
 
 export default function Login() {
@@ -16,8 +10,11 @@ export default function Login() {
 
     const [email,setEmail] =  useState('');
     const [senha,setSenha] =  useState('');
-    const handleLogin = async () =>{
-     /* const url = ''
+    const [urlValor,setUrlValor] = useState('');
+    const handleLogin =  async() =>{
+      
+      const url = "http://192.168.0.6:3000/user/login";
+    
       try{
         const response  = await fetch(url,{
           method:'POST',
@@ -29,19 +26,23 @@ export default function Login() {
             password: senha
           }
           )
-        })
+        });
+
         if(!response.ok){
           const errorMessage = await response.text();
           throw new Error(`Erro na requisição: ${errorMessage || response.statusText}`);
         }
+
         const result = await response.json();
         console.log('Resposta do servidor:', result);
         await AsyncStorage.setItem('user', JSON.stringify(result)); // Salva no AsyncStorage
         router.replace("Lista");
       }catch(error){
         console.error("erro ao enviar os dados",error);
-      }*/
-      router.replace("Perfil");
+        alert("Falha no login. Verifique seu e-mail e senha e tente novamente.");
+      }
+
+       
       
     }
     return (

@@ -1,6 +1,8 @@
 import { Text, View, Keyboard } from "react-native";
 export default function ComponenteMas ({onAdicionar}){
-
+     const SalvarRefeicoes = async () =>{
+        
+     }   
 
     return(
             
@@ -19,7 +21,7 @@ export default function ComponenteMas ({onAdicionar}){
                     onPress={onAdicionar}
                   >
                     +
-                  </Text>
+            </Text>
 
     );
 }

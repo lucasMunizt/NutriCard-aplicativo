@@ -1,8 +1,8 @@
-import { Text, View } from "react-native";
-import { Image, StyleSheet, Platform, TouchableOpacity, ImageBackground } from 'react-native';
-import Logins from "../../components/cadastro/Logins";
-import { useState,useEffect } from 'react';
+
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import Logins from "../../components/cadastro/Logins";
+import env from "../../env";
 //const Stack = createStackNavigator();
 export default function Cadastro (){
     const router = useRouter();
@@ -15,60 +15,67 @@ export default function Cadastro (){
     const [password, setPassword] = useState();
     const [passwordConfirmation, setpasswordConfirmation] = useState();
     const [gender, SetGender] = useState();
-    const url ='';
-  const CalcularImc = () =>{
+    const [goal, setObjetivo] = useState();
+    const url = env.ip + 'user/create';
+  const CalcularImc = async () =>{
     if(height && weight){
-      const imc = (weight / (height * height)).toFixed(2);
+      const imc = (weight / (height * height)).toFixed(2)
+      console.log("weight " + weight + " height " + height + " imc " + imc)
       setCalculoImc(imc)
+      return imc;
     }
+    return null;
   } 
 
   async function createUser(user, url) {
     try {
-      const res = await fetch(url,{
-        method:"POST",
-        headers:{
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
           "content-type": "application/json"
         },
-        body: JSON.stringify(user)
-      })
-      if(res.ok) return router.push("Login");
-      else return alert('Erro ao criar usuário prenchar todos os campos')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Erro:', error));
-      return res;
+        body: JSON.stringify({ user })
+      });
+
+      if (res.ok) {
+        router.push("Login");
+      } else {
+        const errorData = await res.json();
+        console.error("Erro da API:", errorData);
+        alert('Erro ao criar usuário. Verifique os dados e tente novamente.');
+      }
     } catch (error) {
-        console.error("Erro ao criar usuário:", error);
+      console.error("Erro ao criar usuário:", error);
+        alert("Falha ao criar a conta.");
     }
   }
 
-   const handleSave =  async (e) =>{
-    CalcularImc()
-   try{
-       const user = {
-         "user": {
-             "height": height,
-             "weight": weight,
-             "age": age,
-             "name": name,
-             "password": password,
-             "mail": email,
-             "bmi": calculoImc,
-             "gender": gender
-         }
-       }
-       if(!password === passwordConfirmation){
-           return alert("Senhas não compativeis");
-       }else{
-           const res = createUser(user, url);
-           router.push("Login")
-       }
-   }catch(error){
-        console.error(error);
-   }
+ 
+  const handleSave = async () => {
+    if (password !== passwordConfirmation) {
+      return alert("Senhas não compatíveis.");
+    }
+    
+    if (!CalcularImc()) {
+      return alert("Preencha altura e peso para calcular o IMC.");
+    }
 
+    const user = {
+      "height": height,
+      "weight": weight,
+      "age": age,
+      "name": name,
+      "password": password,
+      "mail": email,
+      // "goal": goal,
+      "bmi": calculoImc,
+      "gender": gender,
+      "goal": goal
+    }
+
+    await createUser(user, url);
   };
+
 
     return(
       <>
@@ -83,6 +90,7 @@ export default function Cadastro (){
             onInputChangeAltura={(e)=>{setHeight(e)}}
             onInputChangePeso={(e)=>{setWeight(e)}}
             onInputChangeIdade={(e)=>{setAge(e)}}
+            onInputChangeObjetivo={(e)=>{setObjetivo(e)}}
             funcaoButaoCadastro={handleSave}
           />  
       </>

@@ -1,4 +1,4 @@
-import { Text, View, Keyboard, Dimensions, TextInput, Pressable, Image } from "react-native";
+import { Text, View, Keyboard, Dimensions, TextInput, Pressable, Image,SafeAreaView } from "react-native";
 import { useState, useEffect } from 'react';
 import frasesMotivacionais from "./frasesMotivacionais";
 import imagens from "../../assets/Imagens";
@@ -22,6 +22,7 @@ export default function Logins({
     onInputChangePeso,
     onInputChangeAltura,
     onInputChangeGenero,
+    onInputChangeObjetivo
 }) {
 
     const [fontLoaded] = useFonts({
@@ -62,6 +63,8 @@ export default function Logins({
     if (!fontLoaded) return null;
 
     return (
+        
+            <SafeAreaView style={{flex:1}}>
         <GestureHandlerRootView style={{ flex: 1 }}>
             <View style={{ backgroundColor: '#F2F2F2', flex: 1, marginTop: keyboardVisible ? 0 : 40}}>
                 <View style={{ borderRadius: 10, marginTop: 10, alignItems: "center", flex: 1, padding: 10 }}>
@@ -139,6 +142,26 @@ export default function Logins({
                                                     color: 'black'
                                                 }}
                                             />
+                                            
+
+                                            <RNPickerSelect
+                                                onValueChange={(value) => onInputChangeObjetivo(value)}
+                                                items={[
+                                                    { label: 'Perder Peso', value: 'perder peso' },
+                                                    { label: 'Ganhar Peso', value: 'ganhar massa' },
+                                                ]}
+                                                style={{
+                                                    placeholder: { color: 'black' },
+                                                    inputAndroid: { color: 'black', marginTop: 30 },
+                                                    inputIOS: { color: 'black', marginTop: 30 },
+                                                }}
+                                                placeholder={{
+                                                    label: 'Selecione seu objetivo',
+                                                    value: null,
+                                                    color: 'black',
+                                                }}
+                                            />
+
                                         </>
                                     )}
                                     {etapaCadastro === 2 && (
@@ -190,7 +213,7 @@ export default function Logins({
                         </View>
                     )}
 
-                    <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+                    <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0,marginBottom:20 }}>
                         <Pressable
                             style={{ width: '100%', height: 60, backgroundColor: '#45C8AE', borderRadius: 12, alignItems: 'center', justifyContent: 'center' }}
                             onPress={() => {
@@ -211,5 +234,6 @@ export default function Logins({
                 </View>
             </View>
         </GestureHandlerRootView>
+         </SafeAreaView>
     );
 }
