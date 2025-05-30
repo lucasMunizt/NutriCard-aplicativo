@@ -5,6 +5,7 @@ import { Image, StyleSheet, TextInput, Pressable } from "react-native";
 import iconePesquisa from '../../assets/icons/lupa.png';
 import camera from '../../assets/icons/camera.png';
 import favorito from '../../assets/icons/favorito.png';
+import compras from '../../assets/icons/shopping-bag.png';
 import tomate from "../../assets/fruts/tomate.png";
 import barracaFrutas from "../../assets/icons/barracaFrutas.png";
 import { useFonts, Nunito_400Regular, Nunito_500Medium, Nunito_700Bold } from "@expo-google-fonts/nunito";
@@ -14,6 +15,7 @@ import Card from "./Card";
 import { useLocalSearchParams } from "expo-router";
 import env from '../../env'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ModalComponente from "../../components/ModalComponente";
 export default function AdicionarAlimento() {
    
     const [fontLoaded] = useFonts({
@@ -26,11 +28,13 @@ export default function AdicionarAlimento() {
     const [data, setData] = useState([]);
     const [textInput, setTextInput] = useState('');
     const [nomeAlimento,setAlimento] = useState('');
-    const [quantidadeAdicionada,setquantidadeAdicionada] = useState(1)
+    const [quantidadeAdicionada,setquantidadeAdicionada] = useState()
+    const [quantidadeAdicionadaInput,setquantidadeAdicionadaInput] = useState()
     const [dadosUsuario, setDadosUsuario] = useState([]);
     const [idUsuario,setIdUsuario] = useState()
     const [alimentosSelecionados, setAlimentosSelecionados] = useState([]);
     const [refeicaoP,setRefeicaoP] = useState()
+    const [modalVisivel, setModalVisivel] = useState(false);
     const BuscarAlimentos = async () => {
         if (textInput !== '') {
             await FecthListaAlimentos();
@@ -70,7 +74,10 @@ export default function AdicionarAlimento() {
         });
         };
     
-     
+      const abrirModal = () =>{
+    return setModalVisivel(true)
+  }
+
    const FecthListaAlimentos = async () => {
         const url = `${env.ip}food?number=10&query=${textInput.toLowerCase()}`;
 
@@ -133,7 +140,7 @@ export default function AdicionarAlimento() {
                     name: refeicao,
                     foods: alimentosSelecionados.map(alimento => ({
                         food_id: alimento.food_id,
-                        amount: quantidadeAdicionada,
+                        amount: quantidadeAdicionadaInput,
                         calories: alimento.calories,
                         fat: alimento.fat,
                         carbohydrates: alimento.carbohydrates,
@@ -255,11 +262,12 @@ export default function AdicionarAlimento() {
                 <View style={{
                     marginTop: 40,
                     alignItems: 'center',
-                    justifyContent: "space-between",
-                    flexDirection: "row"
+                    justifyContent: "space-around",
+                    flexDirection: "row",
+                    gap:60
                 }}>
                     <View style={{
-                        marginRight: 120,
+                        
                         flexDirection: 'row',
                         alignItems: 'center'
                     }}>
@@ -277,6 +285,32 @@ export default function AdicionarAlimento() {
                             fontWeight: 500
                         }}>Foto</Text>
                     </View>
+                     <Pressable onPress={()=>{setModalVisivel(true)}}>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    }}>
+                        <Text
+                            style={{
+                                position:"relative",
+                                backgroundColor:"#4CAF50",
+                                borderRadius:12,
+                                width:25,
+                                height:25,
+                                textAlign:"center",
+                                alignItems:"center",
+                                top:-10,
+                                color:"#fff",
+                                fontWeight:"900",
+                                left:40,
+                                zIndex:50
+                            }}
+                        >{quantidadeAdicionada || 0}</Text>
+                        <Image source={compras}
+                         style={{width:30,height:30}}
+                        />
+                    </View>
+                        </Pressable>   
 
                     <View style={{
                         flexDirection: "row",
@@ -305,35 +339,21 @@ export default function AdicionarAlimento() {
                     {renderContent()}
                 </View>
 
-                {alimentosSelecionados.length > 0 && (
-                    <View style={{ alignItems: 'center', marginTop: 0 }}>
-                        <Text style={{
-                            fontFamily: 'Nunito_500Medium',
-                            fontSize: 16,
-                            marginBottom: 10
-                        }}>
-                            Alimentos selecionados: {alimentosSelecionados.length}
-                        </Text>
-                        <TouchableOpacity 
-                            onPress={FinalizarAdicao}
-                            style={{
-                                backgroundColor: '#4CAF50',
-                                padding: 15,
-                                borderRadius: 8,
-                                width: 200,
-                                alignItems: 'center'
-                            }}
-                        >
-                            <Text style={{
-                                color: 'white',
-                                fontFamily: 'Nunito_700Bold',
-                                fontSize: 16
-                            }}>
-                                Finalizar
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
+                { modalVisivel &&(
+                    
+
+                        <ModalComponente
+                        tituloModal={`Alimentos selecionados: ${alimentosSelecionados.length}`}
+                        alimentoSelecionados={true}
+                        textoAlimentos={alimentosSelecionados}
+                        onClose={()=>setModalVisivel(false)}
+                        onSave={FinalizarAdicao}
+                        quantidaeValor={(e)=>{setquantidadeAdicionadaInput(e)}}
+                        />
+                        
+                        
+                    )}
+                    {console.log('quantidade',quantidadeAdicionadaInput)}
             </View>
             <Footer/>
         </View>

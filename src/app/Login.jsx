@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Logins from '../../components/cadastro/Logins';
+import env from "../../env";
 
 export default function Login() {
     const router = useRouter();
@@ -13,7 +14,7 @@ export default function Login() {
     const [urlValor,setUrlValor] = useState('');
     const handleLogin =  async() =>{
       
-      const url = "http://192.168.0.6:3000/user/login";
+      const url = env.ip + "user/login";
     
       try{
         const response  = await fetch(url,{
@@ -36,7 +37,7 @@ export default function Login() {
         const result = await response.json();
         console.log('Resposta do servidor:', result);
         await AsyncStorage.setItem('user', JSON.stringify(result)); // Salva no AsyncStorage
-        router.replace("Lista");
+        router.replace("Home");
       }catch(error){
         console.error("erro ao enviar os dados",error);
         alert("Falha no login. Verifique seu e-mail e senha e tente novamente.");

@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity,StatusBar,Dimensions,SafeAreaView } from "react-native";
 import { useEffect, useState } from 'react';
 import { useFonts, Nunito_400Regular, Nunito_500Medium, Nunito_700Bold } from "@expo-google-fonts/nunito";
 import moment from 'moment';
@@ -59,6 +59,7 @@ export default function Home() {
         }
 
         const refeicoesData = await responseRefeicoes.json();
+        await AsyncStorage.setItem('meals', JSON.stringify(refeicoesData)); // Salva no AsyncStorage
 
         const refeicoesComAlimentos = await Promise.all(
             //pegando a refeição
@@ -109,6 +110,8 @@ export default function Home() {
 
   return (
     <View style={{ flex: 1, flexDirection: 'column', marginTop: 90 }}>
+      <SafeAreaView style={{flex:1}}>
+      <StatusBar style="dark" backgroundColor="#4CAF50" translucent={false} />
       {/* Cabeçalho com Data */}
       <View style={{
         flexDirection: 'row',
@@ -171,7 +174,7 @@ export default function Home() {
           </View>
         ))}
       </View>
-
+        </SafeAreaView>
       <Footer />
     </View>
   );
