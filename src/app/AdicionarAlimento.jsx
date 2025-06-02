@@ -519,6 +519,7 @@ export default function AdicionarAlimento() {
                         onClose={()=>setModalVisivel(false)}
                         handleSave={FinalizarAdicao}
                         quantidaeValor={(e)=>{setquantidadeAdicionadaInput(e)}}
+                        TextoSalvar="Salvar"
                        />
 
                    )}

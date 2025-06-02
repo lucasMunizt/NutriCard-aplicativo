@@ -252,6 +252,7 @@ export default function PerfilScreen() {
                 onInputChangePeso={(e)=>{setNovoPeso(e)}}
                 onInputChangeObjetivo={(e)=>{setObjetivo(e)}}
                 handleSave={AlterarPerfil}
+                 TextoSalvar="Salvar alteração"
               />
             )}
           </View>

@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, StatusBar, Dimensions, SafeAreaView, Pressable } from "react-native";
+import { Text, View, TouchableOpacity, StatusBar, Dimensions, SafeAreaView, Pressable,Alert  } from "react-native";
 import { useEffect, useState } from 'react';
 import { useFonts, Nunito_400Regular, Nunito_500Medium, Nunito_700Bold } from "@expo-google-fonts/nunito";
 import moment from 'moment';
@@ -160,6 +160,24 @@ export default function Home() {
   };
 
     
+  const confirmarExclusao = (mealId) => {
+    Alert.alert(
+      "Confirmar exclusão",
+      "Tem certeza que deseja excluir está refeição?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel"
+        },
+        {
+          text: "Excluir",
+          onPress: () => ExcluirRefeicoes(mealId), // ⬅️ Só chama se confirmar
+          style: "destructive"
+        }
+      ],
+      { cancelable: true }
+    );
+  };
 
     const ExcluirRefeicoes = async (mealId) =>{
       console.log("valoresidRefeicoes:", mealId);
@@ -170,10 +188,6 @@ export default function Home() {
             const res = await fetch(url,{
               method:"DELETE"
             });
-  
-            if(res.ok){
-              alert("Refeição deletada");
-            }
             router.replace("/Home");
         }catch(e){
           console.error("erro ao excluir refeições", e);
@@ -237,7 +251,7 @@ export default function Home() {
                   adicionarAlimento={false}
                   mostraAlimentos={true}
                   excluirRefeicoes={true}
-                  excluir={()=>ExcluirRefeicoes(refeicao.meal_id)}
+                  excluir={()=>confirmarExclusao(refeicao.meal_id)}
                 />
               </TouchableOpacity>
 

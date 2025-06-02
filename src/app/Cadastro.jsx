@@ -67,7 +67,6 @@ export default function Cadastro (){
       "name": name,
       "password": password,
       "mail": email,
-      // "goal": goal,
       "bmi": calculoImc,
       "gender": gender,
       "goal": goal

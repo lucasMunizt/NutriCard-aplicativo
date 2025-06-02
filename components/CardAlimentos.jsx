@@ -11,10 +11,10 @@ export default function CardAlimentos({nome,kcal,onAdicionar}){
     
     return(
         <View style={{width:340,marginBottom:10,marginTop:0}} >
-        <View style={{ flexDirection: "row",alignItems: "center",justifyContent:"space-between" }}>
+        <View style={{ flexDirection: "row",alignItems: "center",justifyContent:"space-between" } }>
 
-            <View>
-                <Text style={{fontSize:16}} onPress={AbrirCard}>{nome}</Text>
+            <View onPress={AbrirCard}>
+                <Text style={{fontSize:16}} >{nome}</Text>
                 <Text>{kcal}</Text>
             </View>
        

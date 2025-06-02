@@ -148,7 +148,7 @@ export default function Logins({
                                                 onValueChange={(value) => onInputChangeObjetivo(value)}
                                                 items={[
                                                     { label: 'Perder Peso', value: 'perder peso' },
-                                                    { label: 'Ganhar Peso', value: 'ganhar massa' },
+                                                    { label: 'Ganhar Peso', value: 'ganhar massa' },
                                                 ]}
                                                 style={{
                                                     placeholder: { color: 'black' },

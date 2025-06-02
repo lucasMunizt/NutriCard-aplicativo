@@ -34,7 +34,7 @@ const ModalComponente = ({
   onInputChangePeso, valuePeso,
   onInputChangeAltura, valueAltura,
   onInputChangeEmail, valueEmail,
-  onInputChangeObjetivo,OnSave,
+  onInputChangeObjetivo,OnSave,TextoSalvar,
   handleSave}) => {
   const [altura, setAltura] = useState('');
   const [peso, setPeso] = useState('');
@@ -127,36 +127,33 @@ const ModalComponente = ({
           )}
 
            {alimentoSelecionados &&(
+                <ScrollView>
               <View>
                 {/* CORREÇÃO DO MAP: adicione key, return e acesse a propriedade .name */}
                 {textoAlimentos.map((alimento, index) => (
                   <View key={`${alimento.food_id}-${index}`} style={styles.listItem}>
                     <View style={{flex:1,flexDirection:'row',alignItems:"center",gap:10,marginBottom:10}}>
 
-                    <Text style={styles.listItemText}>{alimento.name}</Text>
-                    <TextInput
-                      placeholder='QTD'
-                      keyboardType='numeric'
-                      onChangeText={quantidaeValor}
-                      style={{
-                           borderColor:"black",
-                           borderWidth:1,
-                           width:60,
-                           borderRadius:10,
-                           textAlign:"center"
-                      }}
-                    />
-                    </View>
-
-                   
+                     <View style={styles.inputGroup}>
+                          <Text style={styles.label}>{alimento.name}</Text>
+                          <TextInput
+                            placeholder='QTD'
+                            keyboardType='numeric'
+                            onChangeText={quantidaeValor}
+                            style={styles.input}
+                            
+                          />
+                        </View>
                   </View>
+
+                      </View>
                 ))}
               </View>
+                </ScrollView>
            )} 
 
-          
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.saveButtonText}>Salvar Alterações</Text>
+            <Text style={styles.saveButtonText}>{TextoSalvar}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -179,6 +176,7 @@ const styles = StyleSheet.create({
     alignItems:"center",
     gap:10,
   },
+
    listItemText: {
     fontSize: 16,
     color: COLORS.darkText,
@@ -205,6 +203,8 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     marginBottom: 15,
+  
+    width:500
   },
   label: {
     fontSize: 16,
@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderWidth: 1,
     borderColor: COLORS.borderColor,
+    width:300
   },
   saveButton: {
     backgroundColor: COLORS.primaryGreen,
