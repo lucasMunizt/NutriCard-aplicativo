@@ -38,6 +38,10 @@ export default function Home() {
   const [dadosUsuario, setDadosUsuario] = useState({});
   const [caloriasConsumidas, setCaloriasConsumidas] = useState(0);
   const [caloriasRestantes, setCaloriasRestantes] = useState(0);
+  const [caloriasjantar,setCaloriasJantar] = useState(0);
+  const [caloriasAlmoco,setCaloriasAlmoco] = useState(0);
+  const [caloriasMerenda,setCaloriasMerenda] = useState(0);
+  const [caloriasCafemanha,setCafemanha] = useState(0);
 
   const DadosUsuario = async () => {
     try {
@@ -53,7 +57,19 @@ export default function Home() {
         let totalProteinas = 0;
         let totalFibras = 0;
         let totalSodio = 0;
-
+        meals.map((index)=>{
+          if(index.name === "Jantar"){
+           // console.log('name ref', index.name);
+              setCaloriasJantar(index.calories);
+          }else if(index.name === "Café da Manhã"){
+            setCafemanha(index.calories);
+          }else if(index.name === "Almoço"){
+            setCaloriasAlmoco(index.calories);
+          }else if(index.name === "Merenda"){
+            setCaloriasMerenda(index.calories)
+          }
+        })
+        console.log("calorias jantar ",caloriasjantar);
         if (meals.length > 0) {
           meals.forEach((meal) => {
             totalCalorias += meal.calories || 0;
@@ -64,6 +80,7 @@ export default function Home() {
             totalSodio += meal.sodium || 0;
           });
         }
+
 
         setCaloriasConsumidas(totalCalorias);
         setCaloriasRestantes(user[0].calorie_goal || 0);
@@ -76,6 +93,9 @@ export default function Home() {
           fibras: totalFibras,
           sodio: totalSodio
         });
+        
+        
+        
       } else {
         alert("Dados não encontrados");
       }
@@ -125,9 +145,11 @@ export default function Home() {
               marginTop: 30,
               fontWeight: "500",
               borderWidth: 2,
-              borderColor: "#ff053f"
+              borderColor: "#ff053f",
+              
+              
             }}>
-              {(caloriasRestantes || 0).toFixed(2)}KCal Restantes
+              {(caloriasRestantes || 0).toFixed(0)}KCal meta
             </Text>
           </View>
 
@@ -244,32 +266,32 @@ export default function Home() {
         </View>
 
         <View style={{ alignItems: "center" }}>
-          <View style={{ width: 360, marginTop: 10, padding: 10 }}>
+           <View style={{ width: 360, marginTop: 10, padding: 10 }}>
             <CardRefeicao
               imagem={cafe}
               nome="Café da Manhã"
-              kcal="0/1200KCal"
+              kcal={caloriasCafemanha}
               onAdicionar={() => AdicionarProduto("Café da Manhã")}
               adicionarAlimento={true}
             />
             <CardRefeicao
               imagem={almoco}
               nome="Almoço"
-              kcal="0/1200KCal"
+              kcal={caloriasAlmoco}
               onAdicionar={() => AdicionarProduto("Almoço")}
               adicionarAlimento={true}
             />
             <CardRefeicao
               imagem={jantar}
               nome="Jantar"
-              kcal="0/1200KCal"
+              kcal={caloriasjantar}
               onAdicionar={() => AdicionarProduto("Jantar")}
               adicionarAlimento={true}
             />
             <CardRefeicao
               imagem={merenda}
               nome="Merenda"
-              kcal="0/1200KCal"
+              kcal={caloriasMerenda}
               onAdicionar={() => AdicionarProduto("Merenda")}
               adicionarAlimento={true}
             />

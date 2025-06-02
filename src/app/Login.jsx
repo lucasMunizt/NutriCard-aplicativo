@@ -15,7 +15,8 @@ export default function Login() {
     const handleLogin =  async() =>{
       
       const url = env.ip + "user/login";
-    
+      //console.log("url ",url);
+      
       try{
         const response  = await fetch(url,{
           method:'POST',
@@ -35,7 +36,7 @@ export default function Login() {
         }
 
         const result = await response.json();
-        console.log('Resposta do servidor:', result);
+      //  console.log('Resposta do servidor:', result);
         await AsyncStorage.setItem('user', JSON.stringify(result)); // Salva no AsyncStorage
         router.replace("Home");
       }catch(error){

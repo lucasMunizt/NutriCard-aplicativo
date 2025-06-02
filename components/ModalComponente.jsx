@@ -9,7 +9,9 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
+  ScrollView
 } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 
 const { height } = Dimensions.get('window');
 
@@ -24,11 +26,16 @@ const COLORS = {
 };
 
 const ModalComponente = ({ 
-  visible, onClose, onSave, 
+   visible, onClose,
   initialHeight, initialWeight,
-  tituloModal,modalEditor=false, 
-  alimentoSelecionados=false,textoAlimentos,
-  quantidaeValor}) => {
+  tituloModal, modalEditor = false, 
+  alimentoSelecionados = false, textoAlimentos,
+  quantidaeValor,
+  onInputChangePeso, valuePeso,
+  onInputChangeAltura, valueAltura,
+  onInputChangeEmail, valueEmail,
+  onInputChangeObjetivo,OnSave,
+  handleSave}) => {
   const [altura, setAltura] = useState('');
   const [peso, setPeso] = useState('');
   const [listaAlimentos,setListaAlimentos] = useState([textoAlimentos]) 
@@ -40,14 +47,6 @@ const ModalComponente = ({
     }
   }, [visible, initialHeight, initialWeight]);
 
-  const handleSave = () => {
-    // Validação simples para garantir que os valores são números
-    const finalHeight = parseFloat(altura.replace(',', '.')) || 0;
-    const finalWeight = parseFloat(peso.replace(',', '.')) || 0;
-    
-    onSave({ altura: finalHeight, peso: finalWeight });
-    onClose(); // Fecha o modal após salvar
-  };
 
   return (
     <Modal
@@ -67,6 +66,8 @@ const ModalComponente = ({
           <Text style={styles.title}>{tituloModal}</Text>
 
           {modalEditor &&(
+           <ScrollView>
+
           <View>
 
               <View style={styles.inputGroup}>
@@ -75,8 +76,8 @@ const ModalComponente = ({
                   style={styles.input}
                   placeholder="Ex: 175"
                   keyboardType="numeric"
-                  value={altura}
-                  onChangeText={setAltura}
+                  value={valueAltura}
+                  onChangeText={onInputChangeAltura}
                 />
               </View>
 
@@ -86,11 +87,42 @@ const ModalComponente = ({
                   style={styles.input}
                   placeholder="Ex: 70.5"
                   keyboardType="decimal-pad" // Permite usar "." ou ","
-                  value={peso}
-                  onChangeText={setPeso}
+                  value={valuePeso}
+                  onChangeText={onInputChangePeso}
                 />
               </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  keyboardType="email-address" // Permite usar "." ou ","
+                  onChangeText={onInputChangeEmail}
+                  value={valueEmail}
+                />
+              </View>
+
+              <RNPickerSelect
+                onValueChange={(value) => onInputChangeObjetivo(value)}
+                items={[
+                    { label: 'Perder Peso', value: 'perder peso' },
+                    { label: 'Ganhar Peso', value: 'ganhar massa' },
+                ]}
+                style={{
+                    placeholder: { color: 'black' },
+                    inputAndroid: { color: 'black', marginTop: 30 },
+                    inputIOS: { color: 'black', marginTop: 30 },
+                }}
+                placeholder={{
+                    label: 'Selecione seu objetivo',
+                    value: null,
+                    color: 'black',
+                }}
+              />
+
           </View>
+           </ScrollView> 
 
           )}
 
